@@ -11,7 +11,7 @@ BuildRoot:	%{_tmppath}/%{name}-root
 License:	BSD Style
 Group:		Development/Databases
 URL:		http://soci.sourceforge.net/
-BuildRequires:	libsqlite3_0-devel, postgresql-devel, firebird-devel, libmysql-devel
+BuildRequires:	libsqlite3-devel, postgresql-devel, firebird-devel, libmysql-devel
 Requires:	%{libname}-sqlite3, %{libname}-postgresql, %{libname}-mysql, %{libname}-firebird
 Source:		%{name}-%{version}.tar.bz2
 
