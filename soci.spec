@@ -45,6 +45,7 @@ BuildRequires:	libmysql-devel
 Requires:	%{libname}-mysql
 %endif
 Source:		%{name}-%{version}.tar.bz2
+Patch0:		soci-2.2.0_sqlite_fix.patch
 
 %description
 SOCI is a database access library for C++ that makes the illusion of
@@ -213,6 +214,7 @@ This package is for the MySQL backend development files.
 %endif
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 %configure \
