@@ -1,3 +1,20 @@
+%define build_mysql		1
+%define build_sqlite3		1
+%define build_postgresql	1
+%define build_firebird		1
+
+%{?_with_mysql: %{expand: %%global build_mysql 1}}
+%{?_without_mysql: %{expand: %%global build_mysql 0}}
+
+%{?_with_sqlite3: %{expand: %%global build_sqlite3 1}}
+%{?_without_sqlite3: %{expand: %%global build_sqlite3 0}}
+
+%{?_with_postgresql: %{expand: %%global build_postgresql 1}}
+%{?_without_postgresql: %{expand: %%global build_postgresql 0}}
+
+%{?_with_firebird: %{expand: %%global build_firebird 1}}
+%{?_without_firebird: %{expand: %%global build_firebird 0}}
+
 %define name soci
 %define libname %{mklibname %name}
 %define version 2.2.0
@@ -11,8 +28,22 @@ BuildRoot:	%{_tmppath}/%{name}-root
 License:	BSD Style
 Group:		Development/Databases
 URL:		http://soci.sourceforge.net/
-BuildRequires:	libsqlite3-devel, postgresql-devel, firebird-devel, libmysql-devel
-Requires:	%{libname}-sqlite3, %{libname}-postgresql, %{libname}-mysql, %{libname}-firebird
+%if %{build_sqlite3}
+BuildRequires:	libsqlite3-devel
+Requires:	%{libname}-sqlite3
+%endif
+%if %{build_postgresql}
+BuildRequires:	postgresql-devel
+Requires:	%{libname}-postgresql
+%endif
+%if %{build_firebird}
+BuildRequires:	firebird-devel
+Requires:	%{libname}-firebird
+%endif
+%if %{build_mysql}
+BuildRequires:	libmysql-devel
+Requires:	%{libname}-mysql
+%endif
 Source:		%{name}-%{version}.tar.bz2
 
 %description
@@ -35,6 +66,7 @@ Summary:	C++ Database Access Library development files
 Requires:	%{libname}
 Group:		Development/Databases
 
+%if %{build_sqlite3}
 %package -n %{libname}-sqlite3
 Summary:	soci sqlite3 backend
 Requires:	%{libname} = %{version}-%{release}
@@ -47,7 +79,9 @@ Requires:	%{libname}-sqlite3, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-sqlite3-devel = %{version}-%{release}
 Group:		Development/Databases
+%endif
 
+%if %{build_postgresql}
 %package -n %{libname}-postgresql
 Summary:	soci postgresql backend
 Requires:	%{libname} = %{version}-%{release}
@@ -60,7 +94,9 @@ Requires:	%{libname}-postgresql, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-postgresql-devel = %{version}-%{release}
 Group:		Development/Databases
+%endif
 
+%if %{build_firebird}
 %package -n %{libname}-firebird
 Summary:	soci firebird backend
 Requires:	%{libname} = %{version}-%{release}
@@ -73,7 +109,9 @@ Requires:	%{libname}-firebird, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-firebird-devel = %{version}-%{release}
 Group:		Development/Databases
+%endif
 
+%if %{build_mysql}
 %package -n %{libname}-mysql
 Summary:	soci mysql backend
 Requires:	%{libname} = %{version}-%{release}
@@ -86,6 +124,7 @@ Requires:	%{libname}-mysql, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-mysql-devel = %{version}-%{release}
 Group:		Development/Databases
+%endif
 
 %description doc
 SOCI is a database access library for C++ that makes the illusion of
@@ -108,6 +147,7 @@ the Standard C++.
 
 This package contains development files.
 
+%if %{build_sqlite3}
 %description -n %{libname}-sqlite3
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
@@ -122,6 +162,8 @@ the Standard C++.
 
 This package is for the SQLite3 backend development files.
 
+%endif
+%if %{build_postgresql}
 %description -n %{libname}-postgresql
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
@@ -136,6 +178,8 @@ the Standard C++.
 
 This package is for the PostgreSQL backend development files.
 
+%endif
+%if %{build_firebird}
 %description -n %{libname}-firebird
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
@@ -150,6 +194,8 @@ the Standard C++.
 
 This package is for the firebird backend development files.
 
+%endif
+%if %{build_mysql}
 %description -n %{libname}-mysql
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
@@ -164,25 +210,47 @@ the Standard C++.
 
 This package is for the MySQL backend development files.
 
+%endif
 %prep
 %setup -q -n %{name}-%{version}
 
 %build
-%configure --enable-backend-firebird=yes --enable-backend-mysql=yes --enable-backend-postgresql=yes --enable-backend-sqlite3=yes
+%configure \
+%if %{build_firebird}
+	--enable-backend-firebird=yes \
+%endif
+%if %{build_mysql}
+	--enable-backend-mysql=yes \
+%endif
+%if %{build_postgresql}
+	--enable-backend-postgresql=yes \
+%endif
+%if %{build_sqlite3}
+	--enable-backend-sqlite3=yes
+%endif
+
 
 %install
 %makeinstall
 
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
+%if %{build_sqlite3}
 %post -n %{libname}-sqlite3 -p /sbin/ldconfig
 %postun -n %{libname}-sqlite3 -p /sbin/ldconfig
+%endif
+%if %{build_postgresql}
 %post -n %{libname}-postgresql -p /sbin/ldconfig
 %postun -n %{libname}-postgresql -p /sbin/ldconfig
+%endif
+%if %{build_firebird}
 %post -n %{libname}-firebird -p /sbin/ldconfig
 %postun -n %{libname}-firebird -p /sbin/ldconfig
+%endif
+%if %{build_mysql}
 %post -n %{libname}-mysql -p /sbin/ldconfig
 %postun -n %{libname}-mysql -p /sbin/ldconfig
+%endif
 
 %clean
 %{__rm} -Rf %{buildroot}
@@ -210,6 +278,7 @@ This package is for the MySQL backend development files.
 %{_includedir}/soci/soci-platform.h
 %{_includedir}/soci/soci.h
 
+%if %{build_sqlite3}
 %files -n %{libname}-sqlite3
 %defattr(-,root,root)
 %{_libdir}/libsoci_sqlite3-gcc-2_2-%{version}.so
@@ -221,7 +290,9 @@ This package is for the MySQL backend development files.
 %{_libdir}/libsoci_sqlite3-gcc-2_2.so
 %{_includedir}/soci/sqlite3/common.h
 %{_includedir}/soci/sqlite3/soci-sqlite3.h
+%endif
 
+%if %{build_postgresql}
 %files -n %{libname}-postgresql
 %defattr(-,root,root)
 %{_libdir}/libsoci_postgresql-gcc-2_2-%{version}.so
@@ -233,7 +304,9 @@ This package is for the MySQL backend development files.
 %{_libdir}/libsoci_postgresql-gcc-2_2.so
 %{_includedir}/soci/postgresql/common.h
 %{_includedir}/soci/postgresql/soci-postgresql.h
+%endif
 
+%if %{build_firebird}
 %files -n %{libname}-firebird
 %defattr(-,root,root)
 %{_libdir}/libsoci_firebird-gcc-2_2-%{version}.so
@@ -246,7 +319,9 @@ This package is for the MySQL backend development files.
 %{_includedir}/soci/firebird/common.h
 %{_includedir}/soci/firebird/error.h
 %{_includedir}/soci/firebird/soci-firebird.h
+%endif
 
+%if %{build_mysql}
 %files -n %{libname}-mysql
 %defattr(-,root,root)
 %{_libdir}/libsoci_mysql-gcc-2_2-%{version}.so
@@ -258,4 +333,5 @@ This package is for the MySQL backend development files.
 %{_libdir}/libsoci_mysql-gcc-2_2.so
 %{_includedir}/soci/mysql/common.h
 %{_includedir}/soci/mysql/soci-mysql.h
+%endif
 
