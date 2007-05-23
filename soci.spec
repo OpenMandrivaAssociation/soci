@@ -230,6 +230,7 @@ This package is for the MySQL backend development files.
 %if %{build_sqlite3}
 	--enable-backend-sqlite3=yes
 %endif
+%make
 
 
 %install
