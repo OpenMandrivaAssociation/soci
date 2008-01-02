@@ -24,6 +24,7 @@ Summary:	C++ Database Access Library
 Name:		%name
 Version:	%version
 Release:	%release
+BuildRoot:	%{_tmppath}/%{name}-root
 License:	BSD Style
 Group:		Development/Databases
 URL:		http://soci.sourceforge.net/
