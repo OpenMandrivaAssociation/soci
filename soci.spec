@@ -69,13 +69,13 @@ Group:		Development/Databases
 
 %if %{build_sqlite3}
 %package -n %{libname}-sqlite3
-Summary:	soci sqlite3 backend
+Summary:	Soci sqlite3 backend
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Group:		Development/Databases
 
 %package -n %{libname}-sqlite3-devel
-Summary:	soci sqlite3 backend development files
+Summary:	Soci sqlite3 backend development files
 Requires:	%{libname}-sqlite3, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-sqlite3-devel = %{version}-%{release}
@@ -84,13 +84,13 @@ Group:		Development/Databases
 
 %if %{build_postgresql}
 %package -n %{libname}-postgresql
-Summary:	soci postgresql backend
+Summary:	Soci postgresql backend
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Group:		Development/Databases
 
 %package -n %{libname}-postgresql-devel
-Summary:	soci postgresql backend development files
+Summary:	Soci postgresql backend development files
 Requires:	%{libname}-postgresql, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-postgresql-devel = %{version}-%{release}
@@ -99,13 +99,13 @@ Group:		Development/Databases
 
 %if %{build_firebird}
 %package -n %{libname}-firebird
-Summary:	soci firebird backend
+Summary:	Soci firebird backend
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Group:		Development/Databases
 
 %package -n %{libname}-firebird-devel
-Summary:	soci firebird backend development files
+Summary:	Soci firebird backend development files
 Requires:	%{libname}-firebird, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-firebird-devel = %{version}-%{release}
@@ -114,13 +114,13 @@ Group:		Development/Databases
 
 %if %{build_mysql}
 %package -n %{libname}-mysql
-Summary:	soci mysql backend
+Summary:	Soci mysql backend
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Group:		Development/Databases
 
 %package -n %{libname}-mysql-devel
-Summary:	soci mysql backend development files
+Summary:	Soci mysql backend development files
 Requires:	%{libname}-mysql, %{libname}-devel
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-mysql-devel = %{version}-%{release}
