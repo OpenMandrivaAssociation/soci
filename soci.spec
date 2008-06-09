@@ -236,23 +236,43 @@ This package is for the MySQL backend development files.
 %install
 %makeinstall
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 %if %{build_sqlite3}
+%if %mdkversion < 200900
 %post -n %{libname}-sqlite3 -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname}-sqlite3 -p /sbin/ldconfig
 %endif
+%endif
 %if %{build_postgresql}
+%if %mdkversion < 200900
 %post -n %{libname}-postgresql -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname}-postgresql -p /sbin/ldconfig
 %endif
+%endif
 %if %{build_firebird}
+%if %mdkversion < 200900
 %post -n %{libname}-firebird -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname}-firebird -p /sbin/ldconfig
 %endif
+%endif
 %if %{build_mysql}
+%if %mdkversion < 200900
 %post -n %{libname}-mysql -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname}-mysql -p /sbin/ldconfig
+%endif
 %endif
 
 %clean
