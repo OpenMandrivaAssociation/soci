@@ -217,7 +217,7 @@ This package is for the MySQL backend development files.
 %patch0 -p1
 
 %build
-%configure \
+%configure2_5x \
 %if %{build_firebird}
 	--enable-backend-firebird=yes \
 %endif
