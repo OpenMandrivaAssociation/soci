@@ -18,7 +18,7 @@
 %define name soci
 %define libname %{mklibname %name}
 %define version 2.2.0
-%define release %mkrel 5
+%define release %mkrel 6
 
 Summary:	C++ Database Access Library
 Name:		%name
