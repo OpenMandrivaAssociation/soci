@@ -9,8 +9,8 @@
 
 Summary:	C++ Database Access Library
 Name:		soci
-Version:	3.1.0
-Release:	2
+Version:	3.2.3
+Release:	1
 License:	MIT
 Group:		Development/Databases
 URL:		http://soci.sourceforge.net/
@@ -37,18 +37,13 @@ the Standard C++.
 
 PostgreSQL, Firebird, MySQL, SQLite are supported databases.
 
+%files
+%doc README CHANGES LICENSE_1_0.txt
+
+#----------------------------------------------------------------------------
+
 %package doc
 Summary:	Documentation for SOCI
-Group:		Development/Databases
-
-%package -n %{libname}
-Summary:	C++ Database Access Libraries
-Group:		Development/Databases
-
-%package -n %{devname}
-Summary:	C++ Database Access Library development files
-Requires:	%{libname} = %{version}
-Provides:	%{name}-devel = %{EVRD}
 Group:		Development/Databases
 
 %description doc
@@ -58,6 +53,15 @@ the Standard C++.
 
 This package is the documentation.
 
+%files doc
+%doc doc/
+
+#----------------------------------------------------------------------------
+
+%package -n %{libname}
+Summary:	C++ Database Access Libraries
+Group:		Development/Databases
+
 %description -n %{libname}
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
@@ -65,12 +69,30 @@ the Standard C++.
 
 PostgreSQL, MySQL, SQLite are supported databases.
 
+%files -n %{libname}
+%{_libdir}/libsoci_*.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{devname}
+Summary:	C++ Database Access Library development files
+Requires:	%{libname} = %{version}
+Provides:	%{name}-devel = %{EVRD}
+Group:		Development/Databases
+
 %description -n %{devname}
 SOCI is a database access library for C++ that makes the illusion of
 embedding SQL queries in the regular C++ code, staying entirely within
 the Standard C++.
 
 This package contains development files.
+
+%files -n %{devname}
+%{_libdir}/libsoci_*.so
+%{_libdir}/libsoci_*.a
+%{_includedir}/soci
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
@@ -102,20 +124,5 @@ This package contains development files.
 %make
 
 %install
-pushd build
-%makeinstall_std
-popd
+%makeinstall_std -C build
 
-%files
-%doc README CHANGES LICENSE_1_0.txt
-
-%files doc
-%doc doc/
-
-%files -n %{libname}
-%{_libdir}/libsoci_*.so.%{major}*
-
-%files -n %{devname}
-%{_libdir}/libsoci_*.so
-%{_libdir}/libsoci_*.a
-%{_includedir}/soci
