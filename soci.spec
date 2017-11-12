@@ -39,7 +39,7 @@ the Standard C++.
 PostgreSQL, Firebird, MySQL, SQLite are supported databases.
 
 %files
-%doc README CHANGES LICENSE_1_0.txt
+%doc README.md AUTHORS CHANGES LICENSE_1_0.txt
 
 #----------------------------------------------------------------------------
 
