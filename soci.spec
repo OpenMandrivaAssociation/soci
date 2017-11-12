@@ -29,6 +29,7 @@ BuildRequires:	mysql-devel
 BuildRequires:	unixODBC-devel
 %endif
 Source0:	http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.zip
+Patch0:		%{name}-3.2.3-fix-type.patch
 
 %description
 SOCI is a database access library for C++ that makes the illusion of
@@ -96,6 +97,7 @@ This package contains development files.
 
 %prep
 %setup -q
+%apply_patches
 
 %build
 %cmake \
