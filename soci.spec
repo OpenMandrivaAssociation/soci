@@ -1,20 +1,26 @@
+%bcond_without empty
+%bcond_without odbc
+%bcond_without postgresql
 %bcond_without mysql
 %bcond_without sqlite3
-%bcond_without postgresql
-%bcond_without odbc
 
-%define major 3
+%define major 4
+%define minor 0
+%define patch 1
 %define libname %mklibname %{name} %{major}
 %define devname %mklibname %{name} -d
 
-Summary:	C++ Database Access Library
-Name:		soci
-Version:	3.2.3
-Release:	1
-License:	MIT
-Group:		Development/Databases
-URL:		http://soci.sourceforge.net/
+Summary:		C++ Database Access Library
+Name:			soci
+Version:		%{major}.%{minor}.%{patch}
+Release:		1
+License:		MIT
+Group:			Development/Databases
+URL:			http://soci.sourceforge.net/
+Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.zip
+
 BuildRequires:	cmake
+BuildRequires:	ninja
 BuildRequires:	boost-devel
 %if %{with_sqlite3}
 BuildRequires:	sqlite3-devel
@@ -28,8 +34,6 @@ BuildRequires:	mysql-devel
 %if %{with_odbc}
 BuildRequires:	unixODBC-devel
 %endif
-Source0:	http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.zip
-Patch0:		%{name}-3.2.3-fix-type.patch
 
 %description
 SOCI is a database access library for C++ that makes the illusion of
@@ -39,7 +43,8 @@ the Standard C++.
 PostgreSQL, Firebird, MySQL, SQLite are supported databases.
 
 %files
-%doc README.md AUTHORS CHANGES LICENSE_1_0.txt
+%doc README.md AUTHORS
+%license LICENSE_1_0.txt
 
 #----------------------------------------------------------------------------
 
@@ -55,7 +60,7 @@ the Standard C++.
 This package is the documentation.
 
 %files doc
-%doc doc/
+%doc docs/
 
 #----------------------------------------------------------------------------
 
@@ -89,9 +94,9 @@ the Standard C++.
 This package contains development files.
 
 %files -n %{devname}
-%{_libdir}/libsoci_*.so
-%{_libdir}/libsoci_*.a
-%{_includedir}/soci
+%{_libdir}/lib%{name}_*.so
+%{_includedir}/%{name}
+%{_datadir}/cmake/%{name}
 
 #----------------------------------------------------------------------------
 
@@ -101,30 +106,19 @@ This package contains development files.
 
 %build
 %cmake \
-	-DSOCI_EMPTY:BOOL=OFF \
-%if %{with_mysql}
-	-DSOCI_MYSQL:BOOL=ON \
-%else
-	-DSOCI_MYSQL:BOOL=OFF \
-%endif
-%if %{with_odbc}
-	-DSOCI_ODBC:BOOL=ON \
-%else
-	-DSOCI_ODBC:BOOL=OFF \
-%endif
-%if %{with_postgresql}
-	-DSOCI_POSTGRESQL:BOOL=ON \
-%else
-	-DSOCI_POSTGRESQL:BOOL=OFF \
-%endif
-%if %{with_sqlite3}
-	-DSOCI_SQLITE3:BOOL=ON
-%else
-	-DSOCI_SQLITE3:BOOL=OFF
-%endif
-
-%make
+	-DSOCI_STATIC:BOOL=OFF \
+	-DSOCI_EMPTY:BOOL==%{?with_empty:ON}%{?without_empty:OFF} \
+	-DSOCI_MYSQL:BOOL=%{?with_mysql:ON}%{?without_mysql:OFF} \
+	-DSOCI_ODBC:BOOL=%{?with_odbc:ON}%{?without_odbc:OFF} \
+	-DSOCI_POSTGRESQL:BOOL==%{?with_postgresql:ON}%{?without_postgresql:OFF} \
+	-DSOCI_SQLITE3:BOOL=%{?with_sqlite3:ON}%{?without_sqlite3:OFF} \
+	-G Ninja
+%ninja_build
 
 %install
-%makeinstall_std -C build
+%ninja_install -C build
+
+# fix cmake path
+install -dm 0755 %{buildroot}%{_datadir}/cmake/%{name}
+mv -f %{buildroot}%{_prefix}/cmake %{buildroot}%{_datadir}/cmake/%{name}
 
