@@ -17,22 +17,22 @@ Release:		1
 License:		MIT
 Group:			Development/Databases
 URL:			http://soci.sourceforge.net/
-Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.zip
+Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	boost-devel
 %if %{with_sqlite3}
-BuildRequires:	sqlite3-devel
+BuildRequires:	pkgconfig(sqlite3)
 %endif
 %if %{with_postgresql}
-BuildRequires:	postgresql-devel
+BuildRequires:	pkgconfig(libpgtypes)
 %endif
 %if %{with_mysql}
-BuildRequires:	mysql-devel
+BuildRequires:	pkgconfig(mariadb)
 %endif
 %if %{with_odbc}
-BuildRequires:	unixODBC-devel
+BuildRequires:	pkgconfig(odbc)
 %endif
 
 %description
