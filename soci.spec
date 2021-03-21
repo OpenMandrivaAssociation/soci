@@ -23,16 +23,16 @@ BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	boost-devel
 %if %{with_sqlite3}
-BuildRequires:	sqlite3-devel
+BuildRequires:	pkgconfig(sqlite3)
 %endif
 %if %{with_postgresql}
-BuildRequires:	postgresql-devel
+BuildRequires:	pkgconfig(libpgtypes)
 %endif
 %if %{with_mysql}
-BuildRequires:	mysql-devel
+BuildRequires:	pkgconfig(mariadb)
 %endif
 %if %{with_odbc}
-BuildRequires:	unixODBC-devel
+BuildRequires:	pkgconfig(odbc)
 %endif
 
 %description
