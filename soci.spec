@@ -17,7 +17,7 @@ Release:		1
 License:		MIT
 Group:			Development/Databases
 URL:			http://soci.sourceforge.net/
-Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.zip
+Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.tar,gz
 
 BuildRequires:	cmake
 BuildRequires:	ninja
