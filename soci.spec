@@ -6,7 +6,7 @@
 
 %define major 4
 %define minor 0
-%define patch 1
+%define patch 2
 %define libname %mklibname %{name} %{major}
 %define devname %mklibname %{name} -d
 
@@ -96,7 +96,7 @@ This package contains development files.
 %files -n %{devname}
 %{_libdir}/lib%{name}_*.so
 %{_includedir}/%{name}
-%{_datadir}/cmake/%{name}
+%{_libdir}/cmake/SOCI
 
 #----------------------------------------------------------------------------
 
