@@ -117,8 +117,3 @@ This package contains development files.
 
 %install
 %ninja_install -C build
-
-# fix cmake path
-install -dm 0755 %{buildroot}%{_datadir}/cmake/%{name}
-mv -f %{buildroot}%{_prefix}/cmake %{buildroot}%{_datadir}/cmake/%{name}
-
