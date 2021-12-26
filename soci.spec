@@ -13,7 +13,7 @@
 Summary:		C++ Database Access Library
 Name:			soci
 Version:		%{major}.%{minor}.%{patch}
-Release:		1
+Release:		2
 License:		MIT
 Group:			Development/Databases
 URL:			http://soci.sourceforge.net/
