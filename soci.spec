@@ -6,14 +6,14 @@
 
 %define major 4
 %define minor 0
-%define patch 2
+%define patch 3
 %define libname %mklibname %{name} %{major}
 %define devname %mklibname %{name} -d
 
 Summary:		C++ Database Access Library
 Name:			soci
 Version:		%{major}.%{minor}.%{patch}
-Release:		2
+Release:		1
 License:		MIT
 Group:			Development/Databases
 URL:			http://soci.sourceforge.net/
