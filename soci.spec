@@ -16,7 +16,7 @@ Version:		%{major}.%{minor}.%{patch}
 Release:		2
 License:		MIT
 Group:			Development/Databases
-URL:			http://soci.sourceforge.net/
+URL:			https://soci.sourceforge.net/
 Source0:		http://downloads.sourceforge.net/project/soci/%{name}/%{name}-%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:	cmake
